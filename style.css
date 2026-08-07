@@ -1,0 +1,553 @@
+/* Premium CSS Styling for "day - a little film" */
+
+:root {
+  --bg-primary: #faf5f2;
+  --text-dark: #4a2d2a;
+  --text-muted: #8d706c;
+  --accent-pink: #e85d75;
+  --accent-glow: #ff85a2;
+  --card-bg: rgba(254, 251, 249, 0.55);
+  --card-border: rgba(255, 255, 255, 0.7);
+  
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-script: 'Alex Brush', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Background Canvas for Particles */
+#particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Header content */
+.header-content {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.header-content.fade-out {
+  opacity: 0;
+}
+
+.header-content .subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--text-dark);
+  opacity: 0.85;
+  animation: floatText 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatText {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* SVG Game Container */
+#game-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* Target Heart */
+#heart-target {
+  fill: var(--accent-pink);
+  transform-origin: center;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  cursor: pointer;
+}
+
+#heart-target.hit {
+  transform: translate(960px, 540px) scale(0) translate(-12, -12) !important;
+  opacity: 0;
+}
+
+/* Pulse glow in background of target heart */
+#heart-pulse-glow {
+  transform-origin: 960px 540px;
+  animation: pulseGlow 3s ease-in-out infinite;
+  transition: opacity 0.8s ease;
+}
+
+#heart-pulse-glow.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes pulseGlow {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+}
+
+/* Bow & Arrow Group */
+#bow-arrow-group {
+  transition: opacity 0.8s ease, transform 0.5s ease-out;
+}
+
+#bow-arrow-group.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.instruction-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  fill: var(--text-muted);
+  letter-spacing: 0.2em;
+  opacity: 0.8;
+  animation: pulseText 2s infinite ease-in-out;
+  transition: opacity 0.5s ease;
+}
+
+.instruction-text.fade-out {
+  opacity: 0;
+}
+
+@keyframes pulseText {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+/* Tree & Bloom Styling */
+.branch-path {
+  fill: none;
+  stroke: #452b29;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.leaf-heart {
+  fill: var(--accent-pink);
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+}
+
+/* Glassmorphic Birthday Card */
+#birthday-card {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50px);
+  z-index: 100;
+  width: 440px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 28px;
+  padding: 48px;
+  box-shadow: 0 30px 70px rgba(74, 45, 42, 0.07),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#birthday-card.card-show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
+}
+
+.card-intro {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.card-title {
+  font-family: var(--font-script);
+  font-size: 5rem;
+  color: var(--accent-pink);
+  font-weight: normal;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  /* Soft elegant shadow */
+  text-shadow: 0 4px 12px rgba(232, 93, 117, 0.08);
+}
+
+.card-wish {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  margin-bottom: 32px;
+  opacity: 0.9;
+}
+
+.card-btn {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-dark);
+  background: transparent;
+  border: 1px solid rgba(74, 45, 42, 0.2);
+  padding: 14px 28px;
+  border-radius: 50px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card-btn:hover {
+  background: var(--text-dark);
+  color: #fff;
+  border-color: var(--text-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 45, 42, 0.15);
+}
+
+.card-btn:active {
+  transform: translateY(0);
+}
+
+/* Audio Toggle Button */
+.audio-btn {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 200;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.audio-btn:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.audio-btn:active {
+  transform: scale(0.95);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Letter Envelope Modal */
+#envelope-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+#envelope-modal.modal-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(74, 45, 42, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 480px;
+  height: 380px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Envelope Container */
+.envelope {
+  position: relative;
+  width: 440px;
+  height: 290px;
+  background: #f6eeeb;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 20px 50px rgba(74, 45, 42, 0.15);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.5s ease;
+}
+
+.envelope:hover {
+  transform: translateY(-8px);
+}
+
+.envelope.open {
+  transform: translateY(40px);
+}
+
+.envelope.open:hover {
+  transform: translateY(40px);
+}
+
+/* Flap at the top */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid transparent;
+  border-right: 220px solid transparent;
+  border-top: 155px solid #ebd9d3;
+  transform-origin: top;
+  z-index: 30;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Front folded sides */
+.envelope-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 220px solid #fcf7f5;
+  border-right: 220px solid #ecdcd6;
+  border-bottom: 145px solid #f6eeeb;
+  border-top: 145px solid transparent;
+  z-index: 40;
+  border-radius: 0 0 8px 8px;
+  pointer-events: none;
+}
+
+/* Letter Paper inside */
+.envelope-paper {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  width: 410px;
+  height: 260px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  z-index: 20;
+  overflow: hidden;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: bottom;
+  border: 1px solid rgba(74, 45, 42, 0.05);
+}
+
+.letter-content {
+  color: var(--text-dark);
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.letter-content h2 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+  color: var(--accent-pink);
+  letter-spacing: 0.05em;
+}
+
+.letter-content p {
+  margin-bottom: 12px;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+.letter-signature {
+  font-family: var(--font-script);
+  font-size: 1.6rem;
+  margin-bottom: 0px !important;
+  color: var(--accent-pink);
+}
+
+.letter-sender {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+/* Open Envelope States */
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 10;
+}
+
+.envelope.open .envelope-paper {
+  transform: translateY(-110px) scale(1.05);
+  z-index: 50;
+  height: 320px;
+  box-shadow: 0 20px 40px rgba(74, 45, 42, 0.18);
+  cursor: default;
+}
+
+/* Close Button for Modal */
+.close-btn {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  font-size: 2.2rem;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  #birthday-card {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    padding: 36px;
+    text-align: center;
+  }
+  
+  #birthday-card.card-show {
+    transform: translate(-50%, -50%);
+  }
+
+  .card-title {
+    font-size: 4rem;
+  }
+  
+  /* Shift target heart visual center if card overlaps */
+  /* Wait, on tablets, we can let the tree scale slightly smaller or shift up */
+}
+
+@media (max-width: 480px) {
+  .envelope-wrapper {
+    width: 90%;
+    height: auto;
+  }
+  .envelope {
+    width: 320px;
+    height: 210px;
+  }
+  .envelope-flap {
+    border-left-width: 160px;
+    border-right-width: 160px;
+    border-top-width: 110px;
+  }
+  .envelope-front {
+    border-left-width: 160px;
+    border-right-width: 160px;
+    border-bottom-width: 105px;
+    border-top-width: 105px;
+  }
+  .envelope-paper {
+    width: 290px;
+    height: 190px;
+    padding: 20px;
+  }
+  .envelope.open .envelope-paper {
+    transform: translateY(-110px) scale(1.05);
+    height: 270px;
+  }
+  .letter-content {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  .letter-content h2 {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+  }
+  .letter-signature {
+    font-size: 1.4rem;
+  }
+}
